@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { Container } from "@material-ui/core";
+import Navbar from "./components/Navbar/Navbar";
+import Home from "./components/Home/Home";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import Auth from "./components/Auth/Auth";
+import PostDetails from "./components/PostDetails/PostDetails";
+import Creator from './components/Creator/Creator';
+import Chat from "./components/message/chat";
 
-function App() {
+const App = () => {
+
+   const user = JSON.parse(localStorage.getItem('profile'));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Container maxWidth="xl">
+        <Navbar />
+        <Switch>
+           <Route path="/" exact component={() => <Redirect to="/posts"/>} />
+           <Route path="/posts" exact component={Home} />
+           <Route path="/creators/:name" exact component={Creator} />
+           <Route path="/auth" exact component={() => (!user ? <Auth /> : <Redirect to="/posts"/>)} />
+           <Route path="/posts/:id" component={PostDetails} />
+           <Route path="/message/:id" component={Chat} /> 
+        </Switch>
+      </Container>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
