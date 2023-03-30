@@ -11,8 +11,6 @@ const postSchema = mongoose.Schema({
   comments: { type: [String], default: []},
   createdAt: { type: Date, default: new Date() }
   
-});
+}); 
 
-var Post = mongoose.model("Post", postSchema);
-
-export default Post;
+export default mongoose.model("Post", postSchema);

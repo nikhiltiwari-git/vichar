@@ -1,18 +1,42 @@
-import express from 'express';
+import express, { request } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import bodyParser from 'body-parser';
+import post from './routes/post.js';
+import user from './routes/user.js';
+import mongoose from 'mongoose';
+
+// node -r esm index.js
 
 const app = express();
-app.use(cors());
 dotenv.config();
 
+app.use(cors());
+app.use(bodyParser.json({
+    limit: '10mb',
+    extended: true
+}));
+app.use(bodyParser.urlencoded({
+    limit: '10mb',
+    extended: true
+}));
+
+app.use('/posts', post);
+app.use('/user', user);
 
 app.get('/', (req, res) => {
-    res.send('This is remote server');
+    res.send('server');
 });
-
+    
 const PORT = process.env.PORT
 
-app.listen(PORT, ()=>{
-    console.log(`server running on port ${PORT}`);
+mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => 
+    app.listen(PORT, () =>{
+        console.log( `Server Running on Port: ${PORT}` );
+    }
+))
+.catch((err) => {
+    console.log(err)
 });
+
