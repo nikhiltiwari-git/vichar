@@ -53,11 +53,6 @@ export const updatePost = async (req, res) => {
     const { title, message, creator, selectedFile, tags } = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        // console.log(__id); id not __id
-        return res.status(404).send(`No post with id: ${id}`);
-    }
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
         //console.log(id) resolves invalid id
         return res.status(404).send(`No post with id: ${id}`);  
     }
@@ -71,7 +66,11 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
     const { id } = req.params;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        //console.log(id) resolves invalid id
+        return res.status(404).send(`No post with id: ${id}`);  
+    }
+    
     await Post.findByIdAndRemove(id);
     res.status(205).json({ message: "Post deleted successfully." });
 }
@@ -81,8 +80,14 @@ export const likePost = async (req, res) => {
     const { id } = req.params;
     if(!req.userId) return res.status(401).json({ message: 'user not found'});
 
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        //console.log(id) resolves invalid id
+        return res.status(404).send(`No post with id: ${id}`);  
+    }    
+
     const post = await Post.findById(id);
     const index = post.likes.findIndex((id) => id === String(req.userId));
+
 
     if(index === -1){
         post.likes.push(req.userId);  
