@@ -7,10 +7,11 @@ import user from './routes/user.js';
 import mongoose from 'mongoose';
 
 // node -r esm index.js
-
-const app = express();
 dotenv.config();
+const app = express();
 
+
+app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json({
     limit: '10mb',
@@ -40,3 +41,5 @@ mongoose.connect(process.env.CONNECTION_URL, { useNewUrlParser: true, useUnified
     console.log(err)
 });
 
+
+export default app;
