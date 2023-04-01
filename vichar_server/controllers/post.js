@@ -17,8 +17,9 @@ export const getPostsBySearch = async (req, res) => {
     const { searchQuery, tags } = req.query;
 
     try {
-        const title = new RegExp(searchQuery, " "); //  default use karan
+        const title = new RegExp(searchQuery, "i"); //  default use karan
         const posts = await Post.find({ $or: [ { title }, { tags: { $in: tags } } ]});  
+        console.log('jarroridata', posts)
         res.status(200).json({ data: posts });   
     } catch (err) {    
         res.status(404).json({ message: err.message });
@@ -29,6 +30,7 @@ export const getPost = async (req, res) => {
     const { id } = req.params;
     try {
         const post = await Post.findById(id);
+        console.log('maal',post);
         res.status(200).json(post);
     } catch (err) {
         res.status(404).json({ message: err.message });
