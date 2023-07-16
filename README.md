@@ -1,13 +1,32 @@
-# vichar QA website.
-to run files.
-- "git clone https://github.com/nikhiltiwari-git/vichar.git"
+# Vichar
+A QA Webapp where user can post, delete, like and comment on queries
 
-( server from root dir )
-- cd vichar/vichar-server
-- npm i
-- node ./index.js
+---
 
-( client from root dir )
-- cd vichar/vichar-client
-- npm i
-- npm start
+# TechStack
+
+- React
+- Node
+- Express
+- Mongodb
+
+---
+
+# Project Structure
+
+```
+$ROOT
+├── client
+│   ├── src
+│   │   # react component files
+│   └── public
+│       # Static files 
+└── server
+    # Node server files
+```
+# Setup
+
+- Declare PORT and CONNECTION_URL in .env
+- run ```npm i``` to install packages
+
+---
